@@ -1,78 +1,83 @@
 #include<stdio.h>
-void read_sparsemat(int mat_normal[100][100],int r,int c)
-{
-    int i=0,j=0;
-    for(i=0;i<r;i++)
-    {
-        for(j=0;j<c;j++)
-        {
-            scanf("%d",&mat_normal[i][j]);
-        }
-    }
-}
-void print_sparsemat(int mat_normal[100][100],int r,int c)
-{
-    int i=0,j=0;
-    for(i=0;i<r;i++)
-    {
-        printf("\n");
-        for(j=0;j<c;j++)
-        {
-            printf("%d  ",mat_normal[i][j]);
-        }
-    }
-}
-void conv_tuple(int mat_normal[100][100],int r,int c)
-{
-    //sparse  to Tuple Form Conversion
-    int mat_tup[100][3];
-    int i,j,cnz=0,tr=0,tc=0;
-    for(i=0;i<r;i++)
-    {
-        for(j=0;j<c;j++)
-        {
-            if(mat_normal[i][j]!=0)
-            {
-                cnz++;
-                mat_tup[cnz][0]=i;
-                mat_tup[cnz][1]=j;
-                mat_tup[cnz][2]=mat_normal[i][j];
-            }
-         }
-    }
-    mat_tup[0][0]=r;
-    mat_tup[0][1]=c;
-    mat_tup[0][2]=cnz;
-    tr=cnz+1;
-    tc=3;
-    printf("\nrows columns values");
-    for(i=0;i<tr;i++)
-    {
-        printf("\n");
-        for(j=0;j<tc;j++)
-        {
-            printf("%d  ",mat_tup[i][j]);
-        }
-    }
-  }
+#include<stdlib.h>
 void main()
 {
-    int mat1[100][100],r1,c1,mat2[100][100],r2,c2;
-    printf("\n Matrix:");
-    printf("\nEnter the no. of rows:");
-    scanf("%d",&r1);
-    printf("\nEnter the no. of columns:");
-    scanf("%d",&c1);
-    printf("Enter the elements\n");
-    read_sparsemat(mat1,r1,c1);
-   
-    printf("\nThe matrix is :");
-    print_sparsemat(mat1,r1,c1);
-    
-    printf("\nMatrix in tuple form:\n");
-    conv_tuple(mat1,r1,c1);
-    
- }
+	int a[10][10],b[10][10],i,j,m,n,sizem=0,sizen=0;
+	float x;
+	printf("Enter the no of rows and columns : ");
+	scanf("%d%d",&m,&n);
+	printf("\nEnter the elements of the matrix : \n");
+	for(i=0;i<m;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			printf("Enter the element a[%d][%d] : ",i,j);
+			scanf("%d",&a[i][j]);
+		}
+	}
+	printf("\nEntered matrix\n");
+	for(i=0;i<m;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			printf("%d\t",a[i][j]);
+		}
+		printf("\n");
+	}
+	for(i=0;i<m;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			if(a[i][j]==0)
+				sizem++;
+			else
+				sizen++;
+		}
+	}
+	int y=sizem+sizen;
+	printf("\nThe no of zero elements : %d",sizem);
+	printf("\nThe no of non-zero elements:%d ",sizen);
+	printf("\nTotal no of elements : %d",y);
+	
+	if(sizem>sizen)
+		printf("\nThey are Sparse Matrices\n");
+	else
+	{
+		printf("They are not sparse matrices");
+		exit(0);
+	}
+	int k=0;
+	printf("\nIndex of non zero elements : \n");
+	for(i=0;i<m;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			if(a[i][j]!=0)
+			{
+				b[k][0]=i;
+				b[k][1]=j;
+				b[k][2]=a[i][j];
+				k++;
+			}
+		}
+	}
+	printf("\nROWS\tCOLUMNS\tVALUES\n");
+	for(i=0;i<sizen;i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			printf("%d\t",b[i][j]);
+			
+		}
+		printf("\n");
+		
+	}
+	x=(float)sizem/y;
+	printf("Sparsity of the Matrix : %f",x);
+}
+
+
+
 
 
 
