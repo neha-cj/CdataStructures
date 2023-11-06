@@ -1,6 +1,6 @@
 #include<stdio.h>
-#include<math.h>
-#include<stdlib.h>
+#include <math.h>
+#include <stdlib.h>
 struct polynomial
 {
 	int  coeff,expo;	
@@ -8,7 +8,8 @@ struct polynomial
 void main()
 {
 	struct polynomial p[100];
-	int n,i,sum=0,x;
+	int n,i;
+	double sum=0.0,x;
 	
 	printf("Enetr the number of terms in the polynomial:");
 	scanf("%d",&n);
@@ -28,12 +29,12 @@ void main()
 		}
 	}
 	printf("Enter the value of x:");
-	scanf("%d",&x);
+	scanf("%lf",&x);
 	for(i=0;i<n;i++)
 	{
-		sum=sum+p[i].coeff*pow(x, i);
+		sum=sum+p[i].coeff * pow(x, p[i].expo);
 	}
 	
 	//printing the value of the polynomial
-	printf("%d",sum);
+	printf("%lf",sum);
 }
