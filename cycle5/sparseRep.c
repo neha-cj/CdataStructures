@@ -58,28 +58,22 @@ void conv_tuple(int mat_normal[100][100],int r,int c)
 void main()
 {
     int mat1[100][100],r1,c1,mat2[100][100],r2,c2;
-    printf("\nFirst matrix:");
+    printf("\n Matrix:");
     printf("\nEnter the no. of rows:");
     scanf("%d",&r1);
     printf("\nEnter the no. of columns:");
     scanf("%d",&c1);
     printf("Enter the elements\n");
     read_sparsemat(mat1,r1,c1);
-    printf("\nSecond matrix:");
-    printf("\nEnter the no. of rows:");
-    scanf("%d",&r2);
-    printf("\nEnter the no. of columns:");
-    scanf("%d",&c2);
-    printf("Enter the elements\n");
-    read_sparsemat(mat2,r2,c2);
-    printf("\nThe first matrix is :");
+   
+    printf("\nThe matrix is :");
     print_sparsemat(mat1,r1,c1);
-    printf("\nThe second matrix is :");
-    print_sparsemat(mat2,r2,c2);
-    printf("\nFirst Matrix in tuple form:\n");
+    
+    printf("\nMatrix in tuple form:\n");
     conv_tuple(mat1,r1,c1);
-    printf("\nSecond Matrix in tuple form:\n");
-    conv_tuple(mat2,r2,c2);
+    
  }
+
+
 
 
