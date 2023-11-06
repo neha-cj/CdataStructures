@@ -33,11 +33,25 @@ void printPolynomial(int poly[], int degree) {
 
 int main() {
     // Define the coefficients and degrees of two polynomials
-    int poly1[] = {-7, 5, -2, 3}; // P(x) = -7 + 5x - 2x^2 + 3x^3
-    int degree1 = 3;
-
-    int poly2[] = {-1, 4, 2}; // Q(x) = -1 + 4x + 2x^2
-    int degree2 = 2;
+    int n1,n2,degree1,degree2;
+    printf("enter the no of terms in 1st polynomial");
+    scanf("%d",&n1);
+    int poly1[n1] ;
+    printf("enter the degree of 1st polynomial");
+    scanf("%d",&degree1);
+    printf("enter the coefficients");
+    for(int i=0;i<n1;i++){
+    	scanf("%d",&poly1[i]);
+    }
+    printf("enter the no of terms in 2nd polynomial");
+    scanf("%d",&n2);
+    int poly2[n2] ;
+    printf("enter the degree of 1st polynomial");
+    scanf("%d",&degree2);
+    printf("enter the coefficients");
+    for(int i=0;i<n2;i++){
+    	scanf("%d",&poly2[i]);
+    }
 
     // Determine the maximum degree among the two polynomials
     int maxDegree = (degree1 > degree2) ? degree1 : degree2;
@@ -60,4 +74,5 @@ int main() {
 
     return 0;
 }
+
 
