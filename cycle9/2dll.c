@@ -1,44 +1,44 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Node {
+struct node{
     int data;
-    struct Node* next;
-    struct Node* prev;
+    struct node*next,*prev;
 };
 
-struct Node* insertAtBeginning(struct Node* head, int data) {
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    newNode->data = data;
-    newNode->next = head;
-    newNode->prev = NULL;
-
-    if (head != NULL) {
-        head->prev = newNode;
+void insertFront(struct node**head, int data){
+    struct node*newnode=(struct node*)malloc(sizeof(struct node));
+    newnode->data=data;
+    newnode->prev=NULL;
+    newnode->next=*head;
+    
+    if(*head!=NULL){
+        (*head)->prev=newnode;
     }
-
-    return newNode;
+    *head=newnode;
 }
-
-void traverse(struct Node* head) {
-    struct Node* temp = head;
-    while (temp != NULL) {
-        printf("%d<--->", temp->data);
-        temp = temp->next;
+    
+void traverse(struct node*head){
+    while(head!=NULL){
+        printf("%d <-> ",head->data);
+        head=head->next;
     }
     printf("NULL\n");
 }
 
-int main() {
-    struct Node* head = NULL;
-
+int main(){
+    struct node*head =NULL;
+    int i,n;
+    printf("enter the number of elements");
+    scanf("%d",&n);
+    printf("enter elements");
+    int data;
     
-    head = insertAtBeginning(head, 5);
-    head = insertAtBeginning(head, 4);
-    head = insertAtBeginning(head, 7);
-    printf("Doubly Linked List: ");
+    for(i=0;i<n;i++){
+        scanf("%d",&data);
+        insertFront(&head,data);
+    }
+    printf("the doubly linked list is");
     traverse(head);
-
     return 0;
 }
