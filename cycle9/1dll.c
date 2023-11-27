@@ -1,50 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
 
-
-#include<stdio.h>
-#include<stdlib.h>
-
-struct node
-{
-	int data;
-	struct node *prev,*next;
+struct node{
+    int data;
+    struct node*next,*prev;
 };
 
+void insertEnd(struct node**head,int data){
+    struct node*newnode=(struct node*)malloc(sizeof(struct node));
+    newnode->data=data;
+    newnode->next=NULL;
+    
+    if(*head==NULL){
+        newnode->prev=NULL;
+        *head=newnode;
+        return;
+    }
+    struct node*last=*head;
+    while(last->next!=NULL){
+        last=last->next;
+    }
+    last->next=newnode;
+    newnode->prev=last;
+}
+    
+void traverse(struct node*head){
+    while(head!=NULL){
+        printf("%d <-> ",head->data);
+        head=head->next;
+    }
+    printf("NULL\n");
+}
 
-struct node *newnode,*head,*temp;
-
-int main()
-{
-	int i,n;
-	head = NULL;
-	printf("Enter number of elements: ");
-	scanf("%d",&n);
-	printf("Enter the elements: ");
-	for(i=0;i<n;i++)
-	{
-		newnode = (struct node*)malloc(sizeof(struct node));
-		scanf("%d",&newnode->data);
-		newnode->prev = NULL;
-		newnode->next = NULL;
-		if(head == NULL)
-		{
-			head=newnode;
-			temp=newnode;
-		}
-		else
-		{
-			temp->next = newnode;
-			newnode->prev = temp;
-			temp = newnode;
-		}
-	}
-	printf("Created Linked List is:\n");
-	temp = head;
-	
-	while(temp != NULL)
-	{
-		printf("%d\t",temp->data);
-		temp = temp->next;
-	}
-	printf("\n");
-	return 0;
+int main(){
+    struct node*head =NULL;
+    int i,n;
+    printf("enter the number of elements");
+    scanf("%d",&n);
+    printf("enter elements");
+    int data;
+    
+    for(i=0;i<n;i++){
+        scanf("%d",&data);
+        insertEnd(&head,data);
+    }
+    printf("the doubly linked list is");
+    traverse(head);
+    return 0;
 }
