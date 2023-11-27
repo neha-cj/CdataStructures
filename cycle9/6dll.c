@@ -1,54 +1,73 @@
+//Delete a node, given the key data value.
+
 #include <stdio.h>
 #include <stdlib.h>
 
 struct Node {
     int data;
-    struct Node* next;
-    struct Node* prev;
+    struct Node* next, *prev;
 };
 
+void insertEnd(struct Node** head,int data){
+	struct Node* newNode=(struct Node*)malloc(sizeof(struct Node));
+	newNode->data=data;
+	newNode->next=NULL;
+	if(*head ==NULL){
+		newNode->prev =NULL;
+		*head=newNode;
+		return;
+	}
+	
+	struct Node* last =*head;
+	while(last->next !=NULL){
+		last=last->next;
+	}
+	
+	last->next=newNode;
+	newNode->prev=last;
+}
 
-
-struct Node* insertAtBeginning(struct Node* head, int data) {
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    newNode->data = data;
-    newNode->next = head;
-    newNode->prev = NULL;
-
-    if (head != NULL) {
-        head->prev = newNode;
-    }
-
-    return newNode;
+void deleteNodeByKey(struct Node** head,int key){
+	if(*head ==NULL){
+	printf("List is empty.\n");
+	return;
+	}
+	struct Node* current = *head;
+	
+	//search for the node with given key
+	while(current !=NULL && current-> data!=key){
+		current=current->next;
+	}
+	
+	//if not found
+	if(current == NULL){
+		printf("Node with value %d not found\n",key);
+		return;
+	}
+	
+	//update pointers to skip node with key
+	if (current->prev!=NULL){
+	current->prev->next=current->next;
+	}
+	else{
+	*head=current->next;
+	}
+	
+	if(current->next!=NULL){
+	current->next->prev = current->prev;
+	}
+	
+	//free memory of node with key
+	free(current);
 }
 
 
-
-struct Node* deleteNode(struct Node* head, struct Node* delNode) {
-    if (head == NULL || delNode == NULL) {
-        printf("List is empty or node to be deleted is NULL.\n");
-        return head;
-    }
-
-    if (delNode->prev != NULL) {
-        delNode->prev->next = delNode->next;
-    } else {
-        head = delNode->next;
-    }
-
-    if (delNode->next != NULL) {
-        delNode->next->prev = delNode->prev;
-    }
-
-    free(delNode);
-    return head;
-}
 
 void traverse(struct Node* head) {
-    struct Node* temp = head;
-    while (temp != NULL) {
-        printf("%d<--->", temp->data);
-        temp = temp->next;
+    
+    while (head != NULL) {
+        printf("%d<--->", head->data);
+        head = head->next;
     }
     printf("NULL\n");
 }
@@ -56,20 +75,27 @@ void traverse(struct Node* head) {
 int main() {
     struct Node* head = NULL;
 
-    
-    head = insertAtBeginning(head, 5);
-    head = insertAtBeginning(head, 4);
-    head = insertAtBeginning(head, 7);
-    printf("Doubly Linked List: ");
+    int n;
+    printf("Enter the number of nodes ");
+    scanf("%d",&n);
+    for(int i=0;i<n;i++){
+    	int data;
+    	printf("enter data for node %d  : ",i+1);
+    	scanf("%d",&data);
+    	insertEnd(&head,data);
+    }
+    printf("Original Doubly Linked List: ");
     traverse(head);
+    int keytoDelete;
+    printf("enter the key value you want to delete\n");
+    scanf("%d",&keytoDelete);
 
-    head = deleteNode(head, head->next); // Delete the node with data 4
+    deleteNodeByKey(&head, keytoDelete ); 
 
     printf("Doubly Linked List after deletion: ");
     traverse(head);
 
     return 0;
 }
-
 
 
