@@ -1,71 +1,71 @@
-//Create a linked list with n elements by adding elements at the end
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Node{
-	int data;
-	struct Node*next;
+// Node structure for doubly linked list
+struct Node {
+    int data;
+    struct Node* prev;
+    struct Node* next;
 };
 
-
-// Function to insert a node at the end of a linked list
-
-struct Node* insertAtEnd(struct Node* head, int newData) {
-    // Create a new node
+// Function to insert a node at the end of the doubly linked list
+void insertEnd(struct Node** head, int data) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    newNode->data = newData;
+    newNode->data = data;
     newNode->next = NULL;
 
-    // If the list is empty, make the new node the head
-    if (head == NULL) {
-        head = newNode;
-    } else {
-        // Traverse to the end of the list
-        struct Node* current = head;
-        while (current->next != NULL) {
-            current = current->next;
-        }
-
-        // Insert the new node at the end
-        current->next = newNode;
+    if (*head == NULL) {
+        newNode->prev = NULL;
+        *head = newNode;
+        return;
     }
 
-    // Return the head of the updated list
-    return head;
+    struct Node* last = *head;
+    while (last->next != NULL) {
+        last = last->next;
+    }
+
+    last->next = newNode;
+    newNode->prev = last;
 }
 
-// Function to print the linked list
+// Function to print the doubly linked list
 void printList(struct Node* head) {
-    struct Node* current = head;
-    while (current != NULL) {
-        printf("%d--> ", current->data);
-        current = current->next;
+    while (head != NULL) {
+        printf("%d <-> ", head->data);
+        head = head->next;
     }
     printf("NULL\n");
 }
 
-int main() {
-    // Initialize an empty linked list
+// Function to create a doubly linked list with n elements
+struct Node* createDoublyLinkedList(int n) {
     struct Node* head = NULL;
-    
+
+    for (int i = 0; i < n; ++i) {
+        int data;
+        printf("Enter data for node %d: ", i + 1);
+        scanf("%d", &data);
+        insertEnd(&head, data);
+    }
+
+    return head;
+}
+
+// Example usage
+int main() {
     int n;
-    printf("Enter the number of elements: ");
-    scanf("%d",&n);
-    
-    for(int i=0; i<n;i++){
-    	int data;
-    	printf("enter element %d:",i+1);
-    	scanf("%d",&data);
-    	head = insertAtEnd(head, data);
-    }
 
-    
-    
+    // Get the number of elements from the user
+    printf("Enter the number of elements in the doubly linked list: ");
+    scanf("%d", &n);
 
-    // Print the linked list
-    printf("Linked List after Insertion at the End: ");
+    // Create a doubly linked list with n elements
+    struct Node* head = createDoublyLinkedList(n);
+
+    // Print the created list
+    printf("\nDoubly linked list with %d elements:\n", n);
     printList(head);
-    
-    return(0);
-    }
 
+    return 0;
+}
