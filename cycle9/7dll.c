@@ -1,73 +1,96 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Node structure for doubly linked list
 struct Node {
     int data;
-    struct Node* next;
     struct Node* prev;
+    struct Node* next;
 };
 
-
-
-struct Node* insertAtBeginning(struct Node* head, int data) {
+// Function to insert a new node at the end of the doubly linked list
+void insertEnd(struct Node** head, int data) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = data;
-    newNode->next = head;
-    newNode->prev = NULL;
 
-    if (head != NULL) {
-        head->prev = newNode;
-    }
-
-    return newNode;
-}
-
-
-
-struct Node* deleteNode(struct Node* head, struct Node* delNode) {
-    if (head == NULL || delNode == NULL) {
-        printf("List is empty or node to be deleted is NULL.\n");
-        return head;
-    }
-
-    if (delNode->prev != NULL) {
-        delNode->prev->next = delNode->next;
+    if (*head == NULL) {
+        newNode->prev = NULL;
+        newNode->next = NULL;
+        *head = newNode;
     } else {
-        head = delNode->next;
+        struct Node* last = *head;
+        while (last->next != NULL) {
+            last = last->next;
+        }
+        last->next = newNode;
+        newNode->prev = last;
+        newNode->next = NULL;
     }
-
-    if (delNode->next != NULL) {
-        delNode->next->prev = delNode->prev;
-    }
-
-    free(delNode);
-    return head;
 }
 
-void traverse(struct Node* head) {
-    struct Node* temp = head;
-    while (temp != NULL) {
-        printf("%d<--->", temp->data);
-        temp = temp->next;
+// Function to delete a node at a given position in the doubly linked list
+void deleteAtPosition(struct Node** head, int position) {
+    if (*head == NULL) {
+        printf("List is empty. Cannot delete from an empty list.\n");
+        return;
+    }
+
+    struct Node* current = *head;
+    int currentPosition = 0;
+
+    // Traverse to the desired position
+    while (currentPosition < position && current != NULL) {
+        current = current->next;
+        currentPosition++;
+    }
+
+    if (current == NULL) {
+        printf("Position %d is beyond the length of the list. Node not deleted.\n", position);
+        return;
+    }
+
+    // Adjust pointers to delete the node
+    if (current->prev != NULL) {
+        current->prev->next = current->next;
+    } else {
+        *head = current->next;
+    }
+
+    if (current->next != NULL) {
+        current->next->prev = current->prev;
+    }
+
+    free(current);
+}
+
+// Function to print the doubly linked list
+void printList(struct Node* head) {
+    while (head != NULL) {
+        printf("%d <-> ", head->data);
+        head = head->next;
     }
     printf("NULL\n");
 }
 
+// Example usage
 int main() {
     struct Node* head = NULL;
 
-    
-    head = insertAtBeginning(head, 5);
-    head = insertAtBeginning(head, 4);
-    head = insertAtBeginning(head, 7);
-    printf("Doubly Linked List: ");
-    traverse(head);
+    // Insert nodes at the end of the doubly linked list
+    for (int i = 1; i <= 5; ++i) {
+        insertEnd(&head, i);
+    }
 
-    head = deleteNode(head, head->next); // Delete the node with data 4
+    // Print the original list
+    printf("Original doubly linked list:\n");
+    printList(head);
 
-    printf("Doubly Linked List after deletion: ");
-    traverse(head);
+    // Delete a node at position 2
+    deleteAtPosition(&head, 2);
+
+    // Print the modified list
+    printf("\nDoubly linked list after deletion at position 2:\n");
+    printList(head);
 
     return 0;
 }
-
