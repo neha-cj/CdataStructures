@@ -1,105 +1,104 @@
+//Given a node data, insert a new node after it.
+
 #include <stdio.h>
 #include <stdlib.h>
 
-// Node structure for doubly linked list
+// Define a node structure
 struct Node {
     int data;
-    struct Node* prev;
     struct Node* next;
 };
 
-// Function to insert a node at the end of the doubly linked list
-void insertEnd(struct Node** head, int data) {
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    newNode->data = data;
-    newNode->next = NULL;
-
-    if (*head == NULL) {
-        newNode->prev = NULL;
-        *head = newNode;
-        return;
-    }
-
-    struct Node* last = *head;
-    while (last->next != NULL) {
-        last = last->next;
-    }
-
-    last->next = newNode;
-    newNode->prev = last;
-}
-
-// Function to insert a new node after a node with a specific data value
-void insertAfter(struct Node* prevNode, int data) {
+// Function to add a new node after a given node
+void insertAfter(struct Node* prevNode, int newData) {
     if (prevNode == NULL) {
         printf("Previous node cannot be NULL.\n");
         return;
     }
 
+    // Allocate memory for the new node
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    newNode->data = data;
 
+    // Set the data of the new node
+    newNode->data = newData;
+
+    // Set the next of the new node to the next of the previous node
     newNode->next = prevNode->next;
-    newNode->prev = prevNode;
-    
-    if (prevNode->next != NULL) {
-        prevNode->next->prev = newNode;
-    }
 
+    // Set the next of the previous node to the new node
     prevNode->next = newNode;
 }
 
-// Function to print the doubly linked list
-void printList(struct Node* head) {
-    while (head != NULL) {
-        printf("%d <-> ", head->data);
-        head = head->next;
+// Function to print the linked list
+void printList(struct Node* node) {
+    while (node != NULL) {
+        printf("%d ", node->data);
+        node = node->next;
     }
-    printf("NULL\n");
 }
 
-// Example usage
+// Main function
 int main() {
+    // Initialize a linked list with some elements
     struct Node* head = NULL;
 
-    // Add nodes to the doubly linked list
-    int nodesToAdd;
-    printf("Enter the number of nodes to add: ");
-    scanf("%d", &nodesToAdd);
+    // Number of elements in the linked list
+    int n;
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
 
-    for (int i = 0; i < nodesToAdd; ++i) {
+    // Add elements to the linked list
+    for (int i = 0; i < n; i++) {
         int data;
-        printf("Enter data for node %d: ", i + 1);
+        printf("Enter element %d: ", i + 1);
         scanf("%d", &data);
-        insertEnd(&head, data);
+
+        // Add the node at the end
+        struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+        newNode->data = data;
+        newNode->next = NULL;
+
+        if (head == NULL) {
+            head = newNode;
+        } else {
+            struct Node* last = head;
+            while (last->next != NULL) {
+                last = last->next;
+            }
+            last->next = newNode;
+        }
     }
 
-    // Print the original list
-    printf("\nOriginal list:\n");
+    // Print the original linked list
+    printf("Original Linked List: ");
     printList(head);
+    printf("\n");
 
-    // Insert a new node after a node with a specific data value
-    int dataToInsert, dataAfter;
-    printf("\nEnter the data value to insert: ");
-    scanf("%d", &dataToInsert);
+    // User input for data value and insert a new node after it
+    int newData;
+    printf("Enter the data value after which you want to insert a new node: ");
+    scanf("%d", &newData);
 
-    printf("Enter the data value after which to insert: ");
-    scanf("%d", &dataAfter);
-
-    struct Node* current = head;
-    while (current != NULL && current->data != dataAfter) {
-        current = current->next;
+    struct Node* currentNode = head;
+    while (currentNode != NULL && currentNode->data != newData) {
+        currentNode = currentNode->next;
     }
 
-    if (current != NULL) {
-        insertAfter(current, dataToInsert);
+    if (currentNode == NULL) {
+        printf("Node with data %d not found in the linked list.\n", newData);
     } else {
-        printf("Node with data %d not found.\n", dataAfter);
-    }
+        // Insert a new node after the found node
+        int newElement;
+        printf("Enter the data value for the new node: ");
+        scanf("%d", &newElement);
+        insertAfter(currentNode, newElement);
 
-    // Print the modified list
-    printf("\nList after insertion of node with data %d after node with data %d:\n", dataToInsert, dataAfter);
-    printList(head);
+        // Print the updated linked list
+        printf("Updated Linked List: ");
+        printList(head);
+        printf("\n");
+    }
 
     return 0;
 }
+
