@@ -31,12 +31,12 @@ void insertAtEnd(struct Node** head, char data) {
 // Function to check if a doubly linked list is a palindrome
 int isPalindrome(struct Node* head) {
     struct Node *front = head, *back = NULL;
-
+    struct Node*temp=head;
     // Move 'back' to the last node
-    while (front->next != NULL) {
-        front = front->next;
+    while (temp->next != NULL) {
+        temp = temp->next;
     }
-    back = front;
+    back = temp;
 
     // Check for palindrome
     while (front != back && front->prev != back) {
